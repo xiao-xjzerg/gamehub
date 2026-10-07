@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#080f1c">
+  <title>GameHub · 管理后台</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/admin/style.css">
+  <script type="module" src="/admin/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#admin-main">跳到主要内容</a>
+  <div class="ambient" aria-hidden="true"><img src="/admin/assets/site-background.webp" alt="" width="1600" height="900"></div>
+
+  <main id="login-screen" class="login-page" hidden>
+    <section class="login-visual" aria-label="GameHub">
+      <div class="login-visual-bg" aria-hidden="true"><img src="/admin/assets/site-background.webp" alt="" width="1600" height="900"></div>
+      <div class="login-brand"><strong>XJZERG</strong><i aria-hidden="true"></i><span>GAMEHUB</span></div>
+      <p class="login-headline">每一局，<br><span>都有记录。</span></p>
+      <div class="filmstrip" aria-hidden="true"><div class="film-card"><img src="/admin/assets/happyjump-cover.webp" alt="" width="1600" height="900"></div><div class="film-card second"><img src="/admin/assets/solovs-cover.webp" alt="" width="1600" height="900"></div></div>
+    </section>
+    <section class="login-area" aria-labelledby="login-title">
+      <div class="plate"><div class="plate-core login-core">
+        <p class="login-caption">GAMEHUB · PRIVATE ACCESS</p><h1 id="login-title">管理后台</h1>
+        <p class="muted">此页面仅通过本机或 SSH 通道访问。</p>
+        <form id="login-form" class="login-fields">
+          <div class="field"><label for="login-password">管理员密码</label><div class="input-frame"><input id="login-password" type="password" autocomplete="current-password" placeholder="请输入管理员密码" maxlength="128" required></div></div>
+          <button type="submit" class="primary">登录<span class="button-circle" aria-hidden="true">→</span></button>
+        </form>
+        <p id="login-status" class="login-hint form-status" role="status" aria-live="polite"></p>
+      </div></div>
+      <footer class="footer"><span class="footer-brand">XJZERG / GAMEHUB ADMIN</span><span>仅本机 / SSH 通道</span></footer>
+    </section>
+  </main>
+
+  <div id="app-shell" class="app app-shell" hidden>
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">G</span><div><strong>GameHub</strong><small>管理后台</small></div></div>
+      <nav class="admin-nav" aria-label="管理导航">
+        <button type="button" class="nav-item active is-active" data-view="overview" aria-current="page">总览</button>
+        <button type="button" class="nav-item" data-view="games">游戏管理</button>
+        <button type="button" class="nav-item" data-view="users">用户管理</button>
+        <button type="button" class="nav-item" data-view="settings">设置</button>
+      </nav>
+      <div class="sidebar-bottom"><span class="sidebar-watermark">XJZERG / GAMEHUB</span><p class="access-note">仅本机 / SSH 通道</p></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar"><div><h1 id="page-title">总览</h1><p id="page-subtitle" class="page-subtitle">进入、开局、结算和入榜情况</p></div><div class="top-actions"><button id="refresh" type="button" class="quiet">刷新数据</button><button id="logout" type="button" class="quiet tertiary">退出登录</button></div></header>
+      <main id="admin-main" tabindex="-1">
+        <p id="status" class="page-status" role="status" aria-live="polite"></p>
+        <section id="view-overview" class="view" aria-label="总览">
+          <div class="metrics">
+            <section class="plate"><div class="plate-core metric visits"><h2>用户情况</h2><div class="pair"><div><span>今日访问</span><strong id="today-visits">—</strong></div><div class="cumulative"><span>累计访问</span><strong id="all-visits">—</strong></div></div><p class="metric-note">按访问会话统计，刷新页面不重复计数</p></div></section>
+            <section class="plate"><div class="plate-core metric"><h2>游戏情况</h2><div class="pair"><div><span>今日开局</span><strong id="today-runs">—</strong></div><div class="cumulative"><span>累计开局</span><strong id="all-runs">—</strong></div></div><p class="metric-note">开局与成绩提交分别记录</p></div></section>
+          </div>
+          <section class="plate panel"><div class="plate-core panel-core"><div class="panel-head"><div><h2>各游戏</h2><p>进入、开局、结算和入榜情况</p></div><span id="updated" class="updated"></span></div><div class="table-wrap"><table class="game-data"><thead><tr><th scope="col">游戏</th><th scope="col" class="num-heading">进入</th><th scope="col" class="num-heading">开局</th><th scope="col" class="num-heading">结算</th><th scope="col" class="num-heading">入榜</th></tr></thead><tbody id="overview-games"></tbody></table></div></div></section>
+        </section>
+
+        <section id="view-games" class="view" aria-label="游戏管理" hidden>
+          <section class="plate panel"><div class="plate-core panel-core"><div class="panel-head"><h2>游戏列表</h2></div><div class="table-wrap"><table class="game-data has-actions"><thead><tr><th scope="col">游戏</th><th scope="col" class="num-heading">进入</th><th scope="col" class="num-heading">开局</th><th scope="col" class="num-heading">结算</th><th scope="col" class="num-heading">入榜</th><th scope="col">操作</th></tr></thead><tbody id="game-rows"></tbody></table></div></div></section>
+          <section id="game-detail" class="plate panel" hidden><div class="plate-core panel-core"><div class="panel-head detail-heading"><div><h2 id="game-detail-title">游戏详情</h2><p id="game-detail-note"></p></div><button type="button" class="table-action close" data-close="game-detail">收起</button></div><div class="table-wrap"><table class="run-data"><thead><tr><th scope="col">游客</th><th scope="col">开局时间</th><th scope="col">状态</th><th scope="col">成绩提交</th></tr></thead><tbody id="game-run-rows"></tbody></table></div></div></section>
+        </section>
+
+        <section id="view-users" class="view" aria-label="用户管理" hidden>
+          <div class="mini-stats"><section class="plate"><div class="plate-core mini-core"><span>游客</span><strong id="user-count">—</strong></div></section><section class="plate"><div class="plate-core mini-core"><span>今日访问游客</span><strong id="today-users">—</strong></div></section><section class="plate"><div class="plate-core mini-core"><span>记录到的 IP</span><strong id="ip-count">—</strong></div></section></div>
+          <section class="plate panel"><div class="plate-core panel-core"><div class="panel-head"><h2>游客列表</h2></div><div class="table-wrap"><table class="user-data"><thead><tr><th scope="col">游客 / 最近昵称</th><th scope="col">最近访问</th><th scope="col">最近 IP</th><th scope="col" class="num-heading">访问</th><th scope="col" class="num-heading">开局</th><th scope="col">操作</th></tr></thead><tbody id="user-rows"></tbody></table></div></div></section>
+          <section id="user-detail" class="plate panel" hidden><div class="plate-core panel-core"><div class="panel-head"><div><h2 id="user-detail-title">游客详情</h2><p>游客详情</p></div><button type="button" class="table-action close" data-close="user-detail">收起</button></div><p id="user-detail-note" class="detail-note"></p><div class="detail-grid"><section><h3 class="subsection-title">最近访问</h3><div class="table-wrap"><table class="visit-data"><thead><tr><th scope="col">开始</th><th scope="col">最后活动</th><th scope="col">访问 IP</th></tr></thead><tbody id="user-visit-rows"></tbody></table></div></section><section><h3 class="subsection-title">最近对局</h3><div class="table-wrap"><table class="run-data"><thead><tr><th scope="col">游戏</th><th scope="col">开局时间</th><th scope="col">状态</th><th scope="col">成绩提交</th></tr></thead><tbody id="user-run-rows"></tbody></table></div></section></div></div></section>
+        </section>
+
+        <section id="view-settings" class="view" aria-label="设置" hidden>
+          <div class="settings-layout"><section class="plate"><div class="plate-core settings-core"><h2>修改管理员密码</h2><p class="muted">修改后所有设备都需要使用新密码重新登录。</p>
+            <form id="password-form"><div class="password-fields">
+              <div class="field"><label for="current-password">当前密码</label><div class="input-frame"><input id="current-password" type="password" autocomplete="current-password" placeholder="请输入当前密码" required></div></div>
+              <div class="field"><label for="new-password">新密码（至少 6 个字符）</label><div class="input-frame"><input id="new-password" type="password" autocomplete="new-password" placeholder="请输入新密码" minlength="6" maxlength="128" required></div></div>
+              <div class="field"><label for="confirm-password">确认新密码</label><div class="input-frame"><input id="confirm-password" type="password" autocomplete="new-password" placeholder="请再次输入新密码" minlength="6" maxlength="128" required></div></div>
+            </div><div class="password-save"><button type="submit" class="primary">保存新密码<span class="button-circle" aria-hidden="true">→</span></button></div></form>
+            <p id="password-status" class="form-status" role="status" aria-live="polite"></p>
+          </div></section><div class="settings-art" aria-hidden="true"><img src="/admin/assets/site-background.webp" alt="" width="1600" height="900" loading="lazy"><span class="large-mark">G</span></div></div>
+        </section>
+      </main>
+      <footer class="footer"><span class="footer-brand">XJZERG / GAMEHUB ADMIN</span><span>访问和开局分别统计</span></footer>
+    </div>
+  </div>
+</body>
+</html>

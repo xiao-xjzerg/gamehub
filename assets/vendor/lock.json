@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "name": "three-0.128.0.min.js",
+      "package": "three",
+      "version": "0.128.0",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
+      "bytes": 603445,
+      "sha256": "9274bbcec8d96168626c732b5d31c775aa8cfb7eaa0599bec0c175908a2c1ce2"
+    },
+    {
+      "name": "three-0.162.0.module.js",
+      "package": "three",
+      "version": "0.162.0",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+      "bytes": 1285851,
+      "sha256": "ec3ddc3897ec75288b5502057456c471c2eb7d6e7cf36140d0a5224e94a1984b"
+    },
+    {
+      "name": "tailwind-browser-4.3.3.js",
+      "package": "@tailwindcss/browser",
+      "version": "4.3.3",
+      "url": "https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/dist/index.global.js",
+      "bytes": 282289,
+      "sha256": "a60c785630a06196808cbe79e6f7bdb4abcc8f4421a47b56f29338fc84805e3b"
+    },
+    {
+      "name": "LICENSE-three-0.128.0.txt",
+      "package": "three",
+      "version": "0.128.0",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.128.0/LICENSE",
+      "bytes": 1081,
+      "sha256": "7dddf7c5b8fd10ee654db8857d75d104b5557889aa5a91fc4ca545ea7c07062f"
+    },
+    {
+      "name": "LICENSE-three-0.162.0.txt",
+      "package": "three",
+      "version": "0.162.0",
+      "url": "https://cdn.jsdelivr.net/npm/three@0.162.0/LICENSE",
+      "bytes": 1081,
+      "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+    },
+    {
+      "name": "LICENSE-tailwind-browser-4.3.3.txt",
+      "package": "@tailwindcss/browser",
+      "version": "4.3.3",
+      "url": "https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/LICENSE",
+      "bytes": 1071,
+      "sha256": "60e0b68c0f35c078eef3a5d29419d0b03ff84ec1df9c3f9d6e39a519a5ae7985"
+    }
+  ]
+}

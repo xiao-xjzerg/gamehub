@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>XJZERG GAMEHUB · 深夜游乐场</title>
+  <link rel="icon" href="data:,">
+  <meta name="description" content="和朋友一起玩 HappyJump、3d_runway 与 Gogodown，挑战每款游戏的前十排行榜。">
+  <meta name="theme-color" content="#080f1c">
+  <link rel="stylesheet" href="/gamehub/assets/style.css">
+  <script type="module" src="/gamehub/assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+  <div class="cosmos" aria-hidden="true"><img src="/gamehub/assets/site-background.webp" alt="" width="1600" height="900"></div>
+  <div class="page">
+    <header class="nav">
+      <a class="brand" href="/gamehub/" aria-label="XJZERG GAMEHUB 首页"><strong>XJZERG</strong><i aria-hidden="true"></i><span>GAMEHUB</span></a>
+      <nav class="nav-links" aria-label="主要导航">
+        <a class="nav-item selected" href="#library" id="nav-games">游戏大厅</a>
+        <button class="nav-item" id="nav-ranking" type="button" aria-haspopup="dialog">排行榜</button>
+      </nav>
+      <div class="guest"><span class="avatar" aria-hidden="true">G</span><span id="guest-status" role="status">游客</span></div>
+    </header>
+    <main id="main-content" tabindex="-1">
+      <section class="hero-shell" aria-labelledby="hero-title">
+        <div class="hero" data-scene>
+          <div class="hero-scene"><img src="/gamehub/assets/3d-runway-cover.webp" alt="3d_runway 的轨道、列车与金币场景" width="1600" height="900" fetchpriority="high"></div>
+          <div class="hero-shade" aria-hidden="true"></div>
+          <div class="orbit" aria-hidden="true"></div>
+          <div class="hero-copy">
+            <h1 id="hero-title">忙里偷闲，<span>来玩一局。</span></h1>
+            <p>把几分钟，变成一场小冒险。</p>
+            <a class="primary" id="featured-play" href="/gamehub/play/3d-runway/" aria-label="开始游戏：3d_runway">开始游戏<span class="play-icon" aria-hidden="true"></span></a>
+          </div>
+          <div class="hero-feature">
+            <div><small>在城市轨道上，跑出你的节奏</small><strong>3d_runway</strong></div>
+            <a class="circle" href="/gamehub/play/3d-runway/" aria-label="开始游戏：3d_runway"><span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+      <section class="library" id="library" aria-labelledby="library-title">
+        <div data-reveal>
+          <h2 id="library-title" class="section-title">挑一场<span>小冒险。</span></h2>
+          <p class="section-desc">跳跃、疾跑，或拔剑出发。每一局，都换个心情。</p>
+        </div>
+        <div class="games" id="games" aria-busy="true"><p class="loading" role="status">正在加载游戏…</p></div>
+        <button id="reload" class="quiet-button" type="button" hidden>重新加载</button>
+      </section>
+      <section class="closing" data-reveal aria-label="游戏寄语">
+        <div><strong>小小的一局。<br>刚刚好的快乐。</strong><p>GAMEHUB / 和朋友一起玩</p></div>
+        <span class="closing-word" aria-hidden="true">GAMEHUB</span>
+      </section>
+    </main>
+    <footer class="footer"><span class="footer-brand">XJZERG / GAMEHUB</span><span>游客记录保存在当前浏览器身份下</span></footer>
+  </div>
+  <dialog id="ranking-dialog" aria-labelledby="ranking-title">
+    <div class="dialog-head"><h2 id="ranking-title">排行榜</h2><button id="close-ranking" class="close" type="button" aria-label="关闭排行榜">×</button></div>
+    <nav id="ranking-games" class="ranking-games" aria-label="切换游戏排行榜"></nav>
+    <div id="ranking-content" aria-live="polite"></div>
+    <button id="retry-ranking" class="quiet-button" type="button" hidden>重试</button>
+  </dialog>
+</body>
+</html>
