@@ -1,6 +1,5 @@
 import {mkdir, readFile, writeFile, stat} from 'node:fs/promises';
 import path from 'node:path';
-import {pathToFileURL} from 'node:url';
 import {blob, committedFiles, requireCleanHead, inventory, fileSetHash, git, noPathOverlap, parseOptions, sha256, safeRelative} from './release-lib.mjs';
 import {verifyRelease} from './verify-release.mjs';
 
@@ -91,7 +90,7 @@ export async function buildRelease(input, output) {
   }
   return {directory:output,status:manifest.status,fileSetSha256:manifest.fileSetSha256,totalBytes:manifest.totalBytes,files:files.length};
 }
-if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href) {
+if(import.meta.main) {
   const options=parseOptions(process.argv.slice(2),['lock','output']);
   if(!options.lock || !options.output)throw new Error('Usage: node scripts/build-release.mjs --lock SOURCE_LOCK.json --output NEW_DIRECTORY');
   const input=JSON.parse(await readFile(options.lock,'utf8'));

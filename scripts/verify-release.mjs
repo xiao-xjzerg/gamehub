@@ -1,5 +1,4 @@
 import {readFile} from 'node:fs/promises';
-import {pathToFileURL} from 'node:url';
 import path from 'node:path';
 import {inventory,fileSetHash,filesUnder,sha256,safeRelative} from './release-lib.mjs';
 
@@ -49,7 +48,7 @@ export async function verifyRelease(directory) {
   }
   return {status:manifest.status,files:files.length,totalBytes:manifest.totalBytes,fileSetSha256:manifest.fileSetSha256};
 }
-if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href) {
+if(import.meta.main) {
   if(process.argv.length!==3)throw new Error('Usage: node scripts/verify-release.mjs ARTIFACT_DIRECTORY');
   console.log(JSON.stringify(await verifyRelease(path.resolve(process.argv[2])),null,2));
 }

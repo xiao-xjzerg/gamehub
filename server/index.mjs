@@ -1,4 +1,3 @@
-import {pathToFileURL} from 'node:url';
 import {readFileSync,existsSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
@@ -23,4 +22,4 @@ export function start(dev=false) {
   let stopping=false;const stop=async()=>{if(stopping)return;stopping=true;if(admin.listening)await new Promise(resolve=>admin.close(resolve));await app.close();};
   process.once('SIGINT',stop);process.once('SIGTERM',stop);return {...app,adminServer:admin,close:stop};
 }
-if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href)start();
+if(import.meta.main)start();

@@ -2,7 +2,6 @@ import {DatabaseSync, backup} from 'node:sqlite';
 import {constants} from 'node:fs';
 import {mkdir, stat, copyFile, readFile, writeFile, realpath, rm} from 'node:fs/promises';
 import {randomUUID} from 'node:crypto';
-import {pathToFileURL} from 'node:url';
 import path from 'node:path';
 import {sha256} from './release-lib.mjs';
 
@@ -60,7 +59,7 @@ export async function restoreDatabase(source,target) {
   }
   return report;
 }
-if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href) {
+if(import.meta.main) {
   const [action,source,target,...rest]=process.argv.slice(2);
   if(rest.length || !source || (action==='inspect'?Boolean(target):!target) || !['inspect','backup','restore'].includes(action))throw new Error('Usage: node scripts/db-tool.mjs inspect DATABASE | backup DATABASE NEW_BACKUP | restore BACKUP NEW_DATABASE');
   console.log(JSON.stringify(action==='inspect'?inspectDatabase(source):await (action==='backup'?backupDatabase:restoreDatabase)(source,target),null,2));
