@@ -6,7 +6,7 @@
   "hub": {"path": "../gamehub_dev", "repository": "", "branch": "main", "commit": ""},
   "games": [
     {"id":"happyjump", "path":"../../HappyJump", "repository":"", "branch":"main", "commit":""},
-    {"id":"3d-runway", "path":"../../3d_runway", "repository":"", "branch":"dev_v2", "commit":""},
+    {"id":"3d-runway", "path":"../../3d_runway", "repository":"", "branch":"main", "commit":""},
     {"id":"gogodown", "path":"../../Gogodown", "repository":"", "branch":"main", "commit":""}
   ]
 }
