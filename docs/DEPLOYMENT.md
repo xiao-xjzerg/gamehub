@@ -7,8 +7,8 @@
 将 `deploy/source-lock.example.json` 复制到仓库外，填写四个源码仓库的路径、GitHub 地址、分支和完整提交 SHA。源码工作区须干净，资源可分发时设置 `artworkDistributionConfirmed=true`。
 
 ```powershell
-node scripts/build-release.mjs --lock ../release/source-lock.json --output ../release/artifact
-node scripts/verify-release.mjs ../release/artifact
+node scripts/build-release.mjs --lock ../release/source-lock.json --output ../release/artifacts/my-release
+node scripts/verify-release.mjs ../release/artifacts/my-release
 ```
 
 输出目录必须尚不存在。`publication=pending` 用于本地构建；`published` 会验证远程分支与锁定提交一致。`codeLicense=UNLICENSED` 表示项目未设置开源许可，第三方原始许可仍随包保留。
@@ -76,6 +76,8 @@ ssh -N -L 18002:127.0.0.1:8002 <SSH用户名>@<服务器地址>
 
 ## 游戏更新与回滚
 
-普通游戏更新提交到对应游戏仓库，再更新来源锁定文件中的提交 SHA，重新构建和验证部署包；未改动的仓库沿用原提交。新增游戏还需配置门户清单、接入层、计分规则和发布工具中的游戏列表。
+普通游戏更新直接提交并推送对应游戏仓库的 `main`，再更新来源锁定文件中的提交 SHA，重新构建和验证部署包；未改动的仓库沿用原提交。每次生成完整组合包，包含门户与三款游戏；只有游戏内容变化时无需修改门户源码。不要直接覆盖已部署包中的单个文件，以免破坏版本与哈希校验。
+
+每个源码仓库使用自身的 `.publish-policy.json` 和 `.gitignore` 管理公开文件，新克隆后按 README 安装 Git 检查。游戏的源码公开规则与 `shared/games.json` 中的运行部署 `include` 分开维护；新增资源目录时检查两者是否都已覆盖。新增游戏还需配置门户清单、接入层、计分规则和发布工具中的游戏列表。
 
 回滚代码时停止服务，将 `current` 切回上一版本，再沿用当前数据库启动。当前数据库结构版本为 4，后端拒绝打开高于自身支持版本的数据库。包含结构迁移的版本须在备份副本上验证旧代码兼容性；代码回滚不会自动降级数据库，旧备份不能覆盖新增成绩。

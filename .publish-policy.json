@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "project": "gamehub",
+  "repository": "https://github.com/xiao-xjzerg/gamehub.git",
+  "nodeVersion": "26.10.0",
+  "files": [
+    ".env.example",
+    ".gitattributes",
+    ".githooks/pre-commit",
+    ".githooks/pre-push",
+    ".gitignore",
+    ".node-version",
+    ".publish-policy.json",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "docs/API.md",
+    "docs/DEPLOYMENT.md",
+    "package.json",
+    "scripts/check-public.mjs"
+  ],
+  "directories": [
+    "admin",
+    "portal",
+    "server",
+    "shared",
+    "assets/source",
+    "assets/vendor",
+    "scripts",
+    "deploy"
+  ],
+  "artworkFiles": [
+    "assets/source/covers/happyjump-cover.png",
+    "assets/source/covers/3d-runway-cover.png",
+    "assets/source/covers/gogodown-cover.png",
+    "assets/source/covers/solovs-cover.png",
+    "assets/source/backgrounds/site-background.png",
+    "portal/assets/happyjump-cover.webp",
+    "portal/assets/3d-runway-cover.webp",
+    "portal/assets/gogodown-cover.webp",
+    "portal/assets/solovs-cover.webp",
+    "portal/assets/site-background.webp"
+  ]
+}

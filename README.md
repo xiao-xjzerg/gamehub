@@ -70,3 +70,15 @@ node scripts/admin-password.mjs
 首页入口为 `portal/index.html`，后台入口为 `admin/index.html`。数据库由 `server/store.mjs` 自动执行 `server/migrations/*.sql` 构建。
 
 游戏分别维护源码，GameHub 构建工具将指定版本组合为部署包，并随站提供固定版本依赖。构建、数据备份和回滚方法见 [部署说明](docs/DEPLOYMENT.md)，接口和计分规则见 [API 文档](docs/API.md)。
+
+## 源码维护
+
+本仓库使用 `.publish-policy.json` 定义可提交文件，`.gitignore` 排除其他本地资料。新增源码或资源目录时同时更新这两个文件；数据库、凭据、设计源表、提示词和测试资料不提交。第三方原始许可随相关依赖保留。
+
+克隆后使用 Node.js **26.10.0** 安装本仓库的提交与推送检查：
+
+```powershell
+node scripts/check-public.mjs install
+```
+
+修改完成后执行 `git add`，再运行 `node scripts/check-public.mjs staged`，确认通过后提交并推送 `main`。检查会审阅待提交文件以及待推送提交，拦截白名单外文件、数据库和常见凭据。Git 钩子仅对当前仓库生效，每次新克隆后需重新安装。

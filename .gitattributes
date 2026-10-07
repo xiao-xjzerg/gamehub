@@ -12,3 +12,7 @@
 *.png binary
 *.webp binary
 assets/vendor/* -text -whitespace
+
+.publish-policy.json text eol=lf
+.githooks/* text eol=lf
+scripts/check-public.mjs text eol=lf
