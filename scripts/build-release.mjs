@@ -15,7 +15,8 @@ const hubRuntime=name=>/^(?:server|admin|portal|shared|deploy|docs|assets\/vendo
 export async function buildRelease(input, output) {
   if(input.schemaVersion!==1 || input.artworkDistributionConfirmed!==true || !['MIT','UNLICENSED'].includes(input.codeLicense) || !['pending','published'].includes(input.publication))throw new Error('Complete source lock and distribution metadata before building');
   const sources=[input.hub,...input.games];
-  if(input.games.map(g=>g.id).sort().join()!==[...ids].sort().join())throw new Error('This release requires exactly the three integrated games; Solovs is deferred');
+  const selectedIds=input.games.map(g=>g.id).sort().join();
+  if(![[...ids].sort().join(),[...ids,'solovs'].sort().join()].includes(selectedIds))throw new Error('Release requires the three ranked games and optionally Solovs');
   for(const item of sources) {
     if(!item.path || !/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+(?:\.git)?$/.test(item.repository || '') || !/^[\w./-]+$/.test(item.branch || ''))throw new Error('Specify local repository, GitHub URL and branch for every source');
     requireCleanHead(item.path,item.commit);
@@ -53,9 +54,10 @@ export async function buildRelease(input, output) {
     await put(dest,blob(hub.path,hub.commit,name));
   }
   const catalog=JSON.parse(blob(hub.path,hub.commit,'shared/games.json'));
+  if(catalog.find(g=>g.id==='solovs')?.available===true && !input.games.some(g=>g.id==='solovs'))throw new Error('Enabled Solovs must have a pinned source in this release');
   for(const game of input.games) {
     const spec=catalog.find(g=>g.id===game.id);
-    if(!spec?.ranking || !spec.include || !spec.entry)throw new Error(`Missing game rules: ${game.id}`);
+    if(!spec?.include || !spec.entry || (game.id==='solovs'?spec.ranking!==null:!spec.ranking))throw new Error(`Missing game rules or invalid ranking state: ${game.id}`);
     const candidates=committedFiles(game.path,game.commit);
     const selected=candidates.filter(n=>spec.include.some(p=>n===p || n.startsWith(p+'/')));
     if(!selected.includes(spec.entry))throw new Error(`Missing committed entry: ${game.id}`);
@@ -72,9 +74,9 @@ export async function buildRelease(input, output) {
     if(input.codeLicense==='MIT' && !candidates.includes('LICENSE'))throw new Error(`Declared game license is missing: ${game.id}`);
     delete spec.source;spec.available=true;
   }
-  const deferred=catalog.find(g=>g.id==='solovs');
-  if(!deferred)throw new Error('Solovs must remain explicitly deferred');
-  delete deferred.source;deferred.include=[];deferred.available=false;
+  for(const deferred of catalog.filter(g=>!input.games.some(item=>item.id===g.id))){
+    delete deferred.source;deferred.include=[];deferred.available=false;
+  }
   await writeFile(path.join(output,'app/shared/games.json'),JSON.stringify(catalog,null,2)+'\n');
   const files=await inventory(output);
   const games=input.games.map(g=>{
@@ -82,7 +84,7 @@ export async function buildRelease(input, output) {
     const gameFiles=files.filter(f=>f.path.startsWith(`public/gamehub/play/${g.id}/`));
     return {id:g.id,repository:g.repository,branch:g.branch,commit:g.commit,mode:spec.mode,rulesVersion:spec.rulesVersion,fileSetSha256:fileSetHash(gameFiles)};
   });
-  const manifest={schemaVersion:1,status:input.publication==='published'?'published-source-verified':'local-candidate',nodeVersion:expectedNode,hub:{repository:hub.repository,branch:hub.branch,commit:hub.commit},games,deferredGames:[{id:'solovs',reason:'Development in progress'}],vendor:vendor.files,artworkDistributionConfirmed:true,codeLicense:input.codeLicense,database:{included:false,schemaVersion:4,requiresExternalPersistentPath:true},fileSetSha256:fileSetHash(files),totalBytes:files.reduce((sum,f)=>sum+f.bytes,0),files};
+  const manifest={schemaVersion:1,status:input.publication==='published'?'published-source-verified':'local-candidate',nodeVersion:expectedNode,hub:{repository:hub.repository,branch:hub.branch,commit:hub.commit},games,deferredGames:catalog.filter(g=>g.available===false).map(g=>({id:g.id,reason:'Development in progress'})),vendor:vendor.files,artworkDistributionConfirmed:true,codeLicense:input.codeLicense,database:{included:false,schemaVersion:4,requiresExternalPersistentPath:true},fileSetSha256:fileSetHash(files),totalBytes:files.reduce((sum,f)=>sum+f.bytes,0),files};
   await writeFile(path.join(output,'release-manifest.json'),JSON.stringify(manifest,null,2)+'\n');
   try {await verifyRelease(output);}catch(error){
     await writeFile(path.join(output,'release-manifest.json'),JSON.stringify({schemaVersion:1,status:'incomplete',reason:'Artifact verification failed'})+'\n');

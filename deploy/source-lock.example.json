@@ -7,6 +7,7 @@
   "games": [
     {"id":"happyjump", "path":"../../HappyJump", "repository":"", "branch":"main", "commit":""},
     {"id":"3d-runway", "path":"../../3d_runway", "repository":"", "branch":"main", "commit":""},
-    {"id":"gogodown", "path":"../../Gogodown", "repository":"", "branch":"main", "commit":""}
+    {"id":"gogodown", "path":"../../Gogodown", "repository":"", "branch":"main", "commit":""},
+    {"id":"solovs", "path":"../../Solovs/Solovs_dev_0", "repository":"", "branch":"main", "commit":""}
   ]
 }

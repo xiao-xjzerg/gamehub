@@ -5,7 +5,7 @@ const date=value=>Number.isFinite(value)&&value>0?dateFormat.format(new Date(val
 const number=value=>Number(value||0).toLocaleString('zh-CN');
 let csrfToken=null,summary=null,currentView='overview',selectedGame=null,selectedUser=null,sessionVersion=0;
 const detailVersion={game:0,user:0};
-const descriptions={overview:'进入、开局、结算和入榜情况',games:'查看每款游戏的使用情况和最近对局。Solovs 仍在开发中。',users:'当前玩家使用游客身份；IP 是访问记录，不作为识别同一人的依据。',settings:'管理账号仅用于本机或 SSH 通道内的后台。'};
+const descriptions={overview:'进入、开局、结算和入榜情况',games:'查看每款游戏的使用情况和最近对局。Solovs（test）已开放试运行，暂不统计对局或排名。',users:'当前玩家使用游客身份；IP 是访问记录，不作为识别同一人的依据。',settings:'管理账号仅用于本机或 SSH 通道内的后台。'};
 const gameNames=new Map();
 
 async function request(path,{method='GET',body}={}) {
@@ -58,7 +58,7 @@ function named(main,small) {
 function gameCell(gameId,name=gameNames.get(gameId)||gameId){
   const wrap=element('div',undefined,'game-cell'),content=element('div');
   content.append(element('strong',name,'game-name'));
-  if(gameId==='solovs')content.append(element('small','仍在开发中','subtle'));
+  if(gameId==='solovs')content.append(element('small','试运行 · 排行榜暂未开放','subtle'));
   if(['happyjump','3d-runway','gogodown','solovs'].includes(gameId)){
     const thumb=element('div',undefined,'thumb'),img=document.createElement('img');
     img.src=`/admin/assets/${gameId}-cover.webp`;img.alt='';img.width=1600;img.height=900;img.loading='lazy';thumb.append(img);wrap.append(thumb);

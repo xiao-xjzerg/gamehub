@@ -1,6 +1,6 @@
 # GameHub
 
-GameHub 是网页游戏门户，提供游客游玩、公开排行榜和通过 SSH 通道访问的管理后台。当前接入 **HappyJump、3d_runway、Gogodown**，Solovs 显示为开发中。
+GameHub 是网页游戏门户，提供游客游玩、公开排行榜和通过 SSH 通道访问的管理后台。当前接入 **HappyJump、3d_runway、Gogodown、Solovs（test）**；Solovs 开放试运行，不开放排行榜。
 
 排行榜向所有访客展示前十名；每次成功提交昵称的成绩独立参与排名，未提交昵称的成绩不入榜。
 
@@ -23,6 +23,8 @@ workspace/
   HappyJump/
   3d_runway/
   Gogodown/
+  Solovs/
+    Solovs_dev_0/
   gamehub/
     gamehub_dev/    本仓库
     data/           持久数据库
@@ -39,6 +41,8 @@ node scripts/admin-password.mjs
 ## 管理与配置
 
 后台包含总览、游戏管理、用户管理和设置，展示访问、进入、开局、结算及入榜统计。玩家使用游客身份；IP 表示网络来源，页面停留与游玩时长由心跳估算。
+
+Solovs（test）提供试运行入口和返回门户功能，暂未接入开局、结算及游玩时长统计，也不提交排行成绩。
 
 配置示例见 `.env.example`。程序通过环境变量读取配置，不会自动加载 `.env` 文件。
 

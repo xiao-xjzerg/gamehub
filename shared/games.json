@@ -2,5 +2,5 @@
   {"id":"happyjump","name":"HappyJump","source":"../../HappyJump","entry":"index.html","include":["index.html","css","js"],"mode":"default","rulesVersion":"v1","ranking":[["score","desc"],["level","desc"],["acceptedAt","asc"],["id","asc"]]},
   {"id":"3d-runway","name":"3d_runway","source":"../../3d_runway","entry":"index.html","include":["index.html","styles","js","assets"],"mode":"default","rulesVersion":"v1","ranking":[["coins","desc"],["score","desc"],["time","asc"],["acceptedAt","desc"],["id","asc"]]},
   {"id":"gogodown","name":"Gogodown","source":"../../Gogodown","entry":"index.html","include":["index.html","styles","js","assets"],"mode":"default","rulesVersion":"v1","ranking":[["floor","desc"],["level","desc"],["duration","asc"],["acceptedAt","desc"],["id","asc"]]},
-  {"id":"solovs","name":"Solovs","source":"../../Solovs/Solovs_dev_0","entry":"index.html","include":["index.html","style.css","src","assets"],"mode":"boss-1","rulesVersion":"v1","ranking":null}
+  {"id":"solovs","name":"Solovs（test）","source":"../../Solovs/Solovs_dev_0","entry":"index.html","include":["index.html","style.css","src","assets"],"mode":"boss-1","rulesVersion":"v1","ranking":null,"available":true}
 ]
