@@ -30,6 +30,25 @@ export async function verifyRelease(directory) {
     const target='public'+decodeURIComponent(url.pathname);
     if(!paths.has(target) && !paths.has(target.replace(/\/$/,'')+'/index.html'))throw new Error(`Missing/case-mismatched reference: ${from} -> ${ref}`);
   }
+  for(const name of paths){
+    if(!name.startsWith('public/') || !/\.(?:tmx|tsx)$/.test(name))continue;
+    const text=await readFile(path.join(directory,name),'utf8');
+    for(const match of text.matchAll(/<(?:image|tileset)\b[^>]*\bsource\s*=\s*["']([^"']+)["']/g))checkReference(name,match[1]);
+  }
+  if(manifest.games.some(g=>g.id==='solovs')){
+    const document='public/gamehub/play/solovs/index.html';
+    const assets=JSON.parse(await readFile(path.join(directory,'public/gamehub/play/solovs/assets/asset-manifest.json'),'utf8'));
+    for(const boss of Object.values(assets.bosses || {})){
+      if(!boss.atlas?.metadata)throw new Error('Solovs boss atlas metadata is missing');
+      checkReference(document,boss.atlas.metadata);
+      const atlasPath='public'+new URL(boss.atlas.metadata,'http://release.local/gamehub/play/solovs/').pathname;
+      const atlas=JSON.parse(await readFile(path.join(directory,atlasPath),'utf8'));
+      if(!atlas.pages?.length)throw new Error('Solovs boss atlas pages are missing');
+      for(const page of atlas.pages)checkReference(document,page.image);
+      for(const animation of Object.values(boss.animations || {}))for(const frame of animation.frames || [])checkReference(document,frame.path);
+    }
+    checkReference(document,'assets/data/boss_config.json');
+  }
   for(const name of paths) {
     if(!name.startsWith('public/') || !/\.(?:html|css|js)$/.test(name) || name.includes('/vendor/'))continue;
     const text=await readFile(path.join(directory,name),'utf8');

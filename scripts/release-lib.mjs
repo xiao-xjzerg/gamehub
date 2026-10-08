@@ -12,7 +12,8 @@ export function safeRelative(name) {
   return name;
 }
 export function sensitivePath(name) {
-  return name.split('/').some(p=>/^(?:\.git|\.agents|\.codex|node_modules|data|backups|tmp|coverage|test-results|playwright-report)$/i.test(p)) ||
+  const runtimeData=/^(?:public\/gamehub\/play\/[a-z0-9-]+\/)?assets\/data\/[\w./-]+\.(?:json|csv)$/i.test(name);
+  return name.split('/').some(p=>/^(?:\.git|\.agents|\.codex|node_modules|backups|tmp|coverage|test-results|playwright-report)$/i.test(p) || /^data$/i.test(p) && !runtimeData) ||
     /(?:^|\/)(?:\.env(?:\..*)?|id_rsa|id_ed25519)$/i.test(name) && !name.endsWith('/.env.example') && name!=='.env.example' ||
     /\.(?:sqlite(?:3)?(?:-.*)?|db(?:-.*)?|pem|key|log|pfx|p12)$/i.test(name);
 }
